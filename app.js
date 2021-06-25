@@ -1,35 +1,12 @@
 const express = require('express');
-const mysql = require ('mysql');
 const app = express();
 const util = require('util');
+const qy = require('./db');
+const apiRouter = require('./Routes/api');
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true }));
-
-//CONEXION A LA BASE DE DATOS
-var conexion = mysql.createConnection ({
-    /*host: 'remotemysql.com',
-    database:'hakESjEndG',
-    user:'hakESjEndG',
-    password:'2rOmKCYLE7',
-    connectTimeout:30000*/
-    host: 'localhost',
-    database:'mybooks',
-    user:'root',
-    password:'root'
-})
-
-conexion.connect((error)=>{
-    if(error){
-        throw error;
-    }else{
-        console.log('Conexion a la base de datos exitosa');
-    }
-});
-//conexion.end();
-
-
-const qy= util.promisify(conexion.query).bind(conexion); //permite el uso de asyn-await
+app.use('./Routes/api', apiRouter); //si no conecto bien se rompe aca. 
 
 //CATEGORIA GET BASE DE DATOS
 app.get('/categoria',async(req,res)=>{
