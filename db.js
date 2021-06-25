@@ -22,9 +22,7 @@ conexion.connect((error)=>{
 });
 //conexion.end();
 
-
 const qy= util.promisify(conexion.query).bind(conexion); //permite el uso de asyn-await
-
 
 module.exports = qy; 
 
