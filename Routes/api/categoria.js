@@ -1,7 +1,7 @@
+
 const router = require('express').Router(); 
 const { json } = require('express');
-const qy = require('../../db'); 
-
+const qy = require('../../db');
 
 router.get('/',async(req,res)=>{
     try{
@@ -15,10 +15,8 @@ router.get('/',async(req,res)=>{
     }
 });
 
-module.exports = router;
-/*
 //TRAER UNA SOLA CATEGORIA POR ID
-app.get('/categoria/:id',async(req,res)=>{
+router.get('/:id',async(req,res)=>{
     try{
         const query = 'SELECT * FROM Categoria WHERE id = ?';
         const respuesta = await qy(query, [req.params.id]);
@@ -31,7 +29,7 @@ app.get('/categoria/:id',async(req,res)=>{
 });
 
 //AGREGAR UNA NUEVA CATEGORIA
-app.post('/categoria',async(req,res)=>{
+router.post('/',async(req,res)=>{
     try{
         //valido que me manden correctamente la info
         if(!req.body.nombre){
@@ -60,7 +58,7 @@ app.post('/categoria',async(req,res)=>{
 });
 
 //BORRAR UNA CATEGORIA
-app.delete('/categoria/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try{
         let query ='SELECT * FROM libro WHERE categoria_id = ?';
         let respuesta = await qy(query,[req.params.id]);
@@ -77,7 +75,7 @@ app.delete('/categoria/:id', async (req, res) => {
     }
 });
 
-*/
+module.exports = router;
 
 
 

@@ -1,12 +1,14 @@
 const express = require('express');
 const app = express();
-//const util = require('util');
+const util = require('util');
 const qy = require('./db');
-const apiRouter = require('./Routes/api');
+//const apiRouter = require('./Routes/api');
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true }));
-app.use('/api', apiRouter); //si no conecto bien se rompe aca. 
+//app.use('/api', apiRouter); //si no conecto bien se rompe aca. 
+app.use(require('./Routes/api'));
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => { console.log(`Servidor escuchando en el puerto ${PORT}`)});
+
+app.set('port', process.env.PORT || 3000);
+app.listen(app.get('port'), () => { console.log(`Servidor escuchando en el puerto`,app.get('port'))});
