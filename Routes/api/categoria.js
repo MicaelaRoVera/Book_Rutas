@@ -3,6 +3,7 @@ const router = require('express').Router();
 const { json } = require('express');
 const qy = require('../../db');
 
+//TRAE TODAS LAS CATEGORIAS
 router.get('/',async(req,res)=>{
     try{
         const query = 'SELECT * FROM Categoria';
