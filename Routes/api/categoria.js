@@ -38,7 +38,6 @@ router.post('/',async(req,res)=>{
         }
         //Verifico que no exista previamente esa categoria
         let query = 'SELECT id FROM Categoria WHERE nombre = ?';
-
         let respuesta = await qy(query, [req.body.nombre]);
     
         if (respuesta.length > 0) {
