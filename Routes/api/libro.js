@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { json } = require('express');
 const qy = require('../../db');
 
-//AGREGAR UN LIBRO NUEVO
+//AGREGAR UN LIBRO NUEVO: agregar lo de editorial tambien
 router.post('/', async (req, res) => {
     try{  
         if(!req.body.nombre || !req.body.categoria_id){
@@ -15,10 +15,10 @@ router.post('/', async (req, res) => {
             res.status(200).json({response: false, mensaje: 'Ya existe un libro con ese nombre'});
             throw new Error('Ya existe un libro con ese nombre');
         }
-        //por aca hay un error, fijate como guardar o nose. 
+        //por aca hay un error, fijate como guardar o nose con colsole.log(). si los datos estan bien escritos, etc
         let descripcion = '';
-        if(req.body.descripcion){
-            descripcion = req.body.descripcion;
+        if(req.body.descripción){
+            descripcion = req.body.descripción;
         }
 
         respuesta = await qy('SELECT * FROM Categoria WHERE id = ?', [req.body.categoria_id]);      
@@ -27,7 +27,7 @@ router.post('/', async (req, res) => {
             throw new Error('No existe una categoria con ese id');
         }no     
         
-        respuesta = await qy('INSERT INTO Libro (nombre, descripcion, categoria_id) VALUES (?,?,?)',[req.body.nombre, descripcion, req.body.categoria_id]);
+        respuesta = await qy('INSERT INTO Libro (nombre, descripción, categoria_id) VALUES (?,?,?)',[req.body.nombre, descripcion, req.body.categoria_id]);
         res.send({'respuesta': respuesta});
         ///
 
@@ -96,6 +96,52 @@ router.delete('/:id', async (req, res) => {
     }catch(e){
     console.error(e.message);
     res.status(413).send({"Error inesperado":e.message});
+    }
+});
+
+//EDITAR LA DESCRIPCION DE UN LIBRO: eanalizar codigo
+
+router.put('/:id', async (req, res) => {
+    try{
+         //verifico que mande todos los datos necesarios
+        if(!req.body.descripción || !req.body.Editorial){
+            res.status(200).json({response: false, mensaje: 'No enviaste los datos necesarios para efectuar un cambio'});
+            throw new Error('No se enviaron los datos obligatorios')
+        } 
+
+        //id nombre descripcion categoria_id persona_id
+        let consulta = await qy('SELECT * FROM Libro WHERE id = ?', [req.params.id]);
+        // res.json(consulta);
+        
+        if(consulta.length < 1){
+            res.status(200).json({response: false, mensaje: 'No se encontro el libro'});
+            throw new Error('No se encontro el libro');
+        }
+
+        let descripcion = null;
+
+        if((req.body.descripción != null && req.body.descripción != '')){
+            descripcion = req.body.descripción;
+        }else{
+            descripcion = consulta[0].descripción;
+        }
+
+        let editorial = null;
+
+        if((req.body.Editorial != null && req.body.Editorial != '')){
+            editorial = req.body.Editorial;
+        }else{
+            editorial = consulta[0].Editorial;
+        }
+
+        let post = await qy('UPDATE Libro SET descripción = ?, Editorial = ?  WHERE id = ?', [descripcion,editorial, consulta[0].id]);
+
+        let consulta_final = await qy('SELECT * FROM Libro WHERE id = ?', [consulta[0].id])
+        res.status(200).json({response: true, consulta_final});
+
+    }catch (err) {
+        console.error(err.message);
+        res.status(413).json({ 'error inesperado encontrado': err.message});
     }
 });
 
