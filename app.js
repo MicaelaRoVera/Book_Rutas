@@ -9,6 +9,6 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true }));
 app.use(require('./Routes/api'));
 
-
+//Conexion 
 app.set('port', process.env.PORT || 3000);
 app.listen(app.get('port'), () => { console.log(`Servidor escuchando en el puerto`,app.get('port'))});
