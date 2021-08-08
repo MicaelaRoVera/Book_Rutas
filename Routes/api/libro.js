@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
             res.status(200).json({response: false, mensaje: 'Ya existe un libro con ese nombre'});
             throw new Error('Ya existe un libro con ese nombre');
         }
-        //por aca hay un error, fijate como guardar o nose con colsole.log(). si los datos estan bien escritos, etc
+
         let descripcion = '';
         if(req.body.descripción){
             descripcion = req.body.descripción;
@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
         if (respuesta.length == 0) {
             res.status(200).json({response: false, mensaje: 'No existe una categoria con ese id'});
             throw new Error('No existe una categoria con ese id');
-        }no     
+        }     
         
         respuesta = await qy('INSERT INTO Libro (nombre, descripción, categoria_id) VALUES (?,?,?)',[req.body.nombre, descripcion, req.body.categoria_id]);
         res.send({'respuesta': respuesta});
@@ -144,5 +144,5 @@ router.put('/:id', async (req, res) => {
         res.status(413).json({ 'error inesperado encontrado': err.message});
     }
 });
-
+//ANDA TODO OK
 module.exports = router;

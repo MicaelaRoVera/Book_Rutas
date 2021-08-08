@@ -2,15 +2,15 @@ const util = require('util');
 const mysql = require('mysql');
 
 var conexion = mysql.createConnection ({
-    host: 'remotemysql.com',
+    /*host: 'remotemysql.com',
     database:'hakESjEndG',
     user:'hakESjEndG',
     password:'2rOmKCYLE7',
-    connectTimeout:30000
-    /*host: 'localhost',
+    connectTimeout:30000*/
+    host: 'localhost',
     database:'mybooks',
     user:'root',
-    password:'root' */
+    password:'root' 
 })
 
 conexion.connect((error)=>{

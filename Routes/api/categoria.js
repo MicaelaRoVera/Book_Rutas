@@ -74,7 +74,7 @@ router.delete('/:id', async (req, res) => {
     res.status(413).send({"Error inesperado":e.message});
     }
 });
-
+//FUNCIONA TODO OK
 module.exports = router;
 
 
